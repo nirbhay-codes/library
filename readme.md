@@ -1,123 +1,60 @@
-// Author format
-{
-  "name": "Author 1",
-  "bio": "This is short bio of Author 1"
-}
+# Steps to run application and test APIs 
 
+1. Make sure you have the following installed on your system:
 
-[
+~~~
+Java 17: Check by running java -version in the terminal.
+
+Maven: Check by running mvn -version in the terminal.
+~~~
+
+2. git clone https://github.com/nirbhay-codes/library.git
+
+3. cd library
+
+4. mvn clean package
+
+5. Run the application
+~~~
+mvn spring-boot:run
+or
+java -jar target/library-0.0.1-SNAPSHOT.jar
+~~~
+
+6. Use postman or similar app
+
+~~~
+// ADD
+Get all Books:
+Endpoint: GET http://localhost:8080/api/books
+
+Get a Book by ID:
+GET http://localhost:8080/api/books/{id}
+
+Add a New Book:
+Endpoint: POST http://localhost:8080/api/books
+
+    Body:
     {
-        "id": 1,
-        "name": "Author 1",
-        "bio": "This is short bio of Author 1",
-        "books": [
-            {
-                "id": 1,
-                "title": "Sample Title 1",
-                "isbn": "ISBN0001",
-                "publishedDate": "2023-01-01"
-            },
-            {
-                "id": 2,
-                "title": "Sample Title 2",
-                "isbn": "ISBN0002",
-                "publishedDate": "2023-01-02"
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "name": "Author 2",
-        "bio": "This is short bio of Author 2",
-        "books": [
-            {
-                "id": 3,
-                "title": "Sample Title 3",
-                "isbn": "ISBN0003",
-                "publishedDate": "2023-01-03"
-            },
-            {
-                "id": 4,
-                "title": "Sample Title 4",
-                "isbn": "ISBN0004",
-                "publishedDate": "2023-01-04"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "name": "Author 3",
-        "bio": "This is short bio of Author 3",
-        "books": [
-            {
-                "id": 5,
-                "title": "Sample Title 5",
-                "isbn": "ISBN0005",
-                "publishedDate": "2023-01-05"
-            },
-            {
-                "id": 6,
-                "title": "Sample Title 6",
-                "isbn": "ISBN0006",
-                "publishedDate": "2023-01-06"
-            }
-        ]
+    "title": "Sample Book",
+    "author": "Sample Author",
+    "isbn": "ISBN00001",
+    "publishedDate": "2023-01-01"
     }
-]
-============================================================
-// Books format 
-{
-    "title": "Sample Title 1",
-    "isbn": "ISBN0001",
-    "publishedDate": "2023-01-01",
-    "author": {
-      "id": 1
-    }
-}
 
-and so on.
+// UPDATE
+Update a Book:
+Endpoint: PUT http://localhost:8080/api/books/{id}
 
-[
+    Body:
     {
-        "id": 1,
-        "title": "Sample Title 1",
-        "isbn": "ISBN0001",
-        "publishedDate": "2023-01-01",
-        "authorId": 1
-    },
-    {
-        "id": 2,
-        "title": "Sample Title 2",
-        "isbn": "ISBN0002",
-        "publishedDate": "2023-01-02",
-        "authorId": 1
-    },
-    {
-        "id": 3,
-        "title": "Sample Title 3",
-        "isbn": "ISBN0003",
-        "publishedDate": "2023-01-03",
-        "authorId": 2
-    },
-    {
-        "id": 4,
-        "title": "Sample Title 4",
-        "isbn": "ISBN0004",
-        "publishedDate": "2023-01-04",
-        "authorId": 2
-    },
-    {
-        "id": 5,
-        "title": "Sample Title 5",
-        "isbn": "ISBN0005",
-        "publishedDate": "2023-01-05",
-        "authorId": 3
-    },
-    {
-        "id": 6,
-        "title": "Sample Title 6",
-        "isbn": "ISBN0006",
-        "publishedDate": "2023-01-06",
-        "authorId": 3
+      "title": "Updated Book Title",
+      "author": "Updated Author",
+      "isbn": "ISBN00001",
+      "publishedDate": "2024-01-01"
     }
-]
+
+// DELETE
+Endpoint: DELETE http://localhost:8080/api/books/{id}
+
+~~~
