@@ -1,6 +1,8 @@
 package com.nirbhay.library.service;
 
+import com.nirbhay.library.entity.Author;
 import com.nirbhay.library.entity.Book;
+import com.nirbhay.library.repository.AuthorRepository;
 import com.nirbhay.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +15,17 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private AuthorRepository authorRepository;
+
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     public Book createBook(Book book) {
+        Author author = authorRepository.findById(book.getAuthor().getId())
+                .orElseThrow(() -> new RuntimeException("Author not found"));
+        book.setAuthor(author);
         return bookRepository.save(book);
     }
 
@@ -31,11 +39,19 @@ public class BookService {
 
     public Book updateBook(Long id, Book bookDetails) {
         Book book = getBookById(id);
+
         if (book != null) {
+
             book.setTitle(bookDetails.getTitle());
             book.setIsbn(bookDetails.getIsbn());
-            book.setAuthor(bookDetails.getAuthor());
             book.setPublishedDate(bookDetails.getPublishedDate());
+
+            Author author = authorRepository.findById(bookDetails.getAuthor().getId())
+                    .orElseThrow(() -> new RuntimeException("Author not found"));
+
+            book.setAuthor(author);
+
+            // Save the updated book
             return bookRepository.save(book);
         }
         return null;

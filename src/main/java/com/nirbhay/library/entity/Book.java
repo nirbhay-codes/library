@@ -22,7 +22,7 @@ public class Book {
     @NotBlank(message = "ISBN is required")
     private String isbn;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
 //    @JsonBackReference // To avoid cyclic reference issue
     @NotNull(message = "Author is required")

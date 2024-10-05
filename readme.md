@@ -9,8 +9,7 @@
 
 2. git clone https://github.com/nirbhay-codes/library.git
 3. cd library
-4. mvn clean package
-5. Run app
+4. Run app
   ~~~
   mvn spring-boot:run
   or
@@ -37,10 +36,12 @@
   ~~~
   Body:
   {
-      "title": "Sample Book",
-      "author": "Sample Author",
-      "isbn": "ISBN00001",
-      "publishedDate": "2024-01-01"
+    "title": "Sample Title 1",
+    "isbn": "ISBN0001",
+    "publishedDate": "2023-01-01",
+    "author": {
+      "id": 1
+    }
   }
   ~~~
 - get all Books: GET http://localhost:8080/api/books
@@ -49,10 +50,12 @@
   ~~~
   Body:
   {
-        "title": "Updated Book Title",
-        "author": "Updated Author",
-        "isbn": "ISBN00001",
-        "publishedDate": "2024-02-01"
+    "title": "Updated Title 1",
+    "isbn": "Updated_ISBN0001",
+    "publishedDate": "2023-01-01",
+    "author": {
+      "id": 2
+    }
   }
   ~~~
 - delete a Book: DELETE http://localhost:8080/api/books/{id}

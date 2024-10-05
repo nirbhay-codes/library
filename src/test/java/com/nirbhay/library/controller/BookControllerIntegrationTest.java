@@ -59,31 +59,20 @@ class BookControllerIntegrationTest {
 
     @Test
     void testCreateBook() throws Exception {
-//        Book newBook = new Book();
-//        newBook.setTitle("Sample Title 2");
-//        newBook.setIsbn("ISBN002");
-//        newBook.setPublishedDate(LocalDate.of(2023, 2, 1));
-//        newBook.setAuthor(author);
-
-        String jsonRequestBody = "{"
-                + "\"id\": null,"
-                + "\"title\": \"Sample Title 2\","
-                + "\"isbn\": \"ISBN002\","
-                + "\"publishedDate\": \"2023-02-01\","
-                + "\"author\": {"
-                + "\"id\": " + author.getId() + ","
-                + "\"name\": \"" + author.getName() + "\","
-                + "\"bio\": \"" + author.getBio() + "\""
-                + "}"
-                + "}";
+        Book newBook = new Book();
+        newBook.setTitle("Sample Title 2");
+        newBook.setIsbn("ISBN002");
+        newBook.setPublishedDate(LocalDate.of(2023, 2, 1));
+        newBook.setAuthor(author);
 
         mockMvc.perform(post("/api/books")
                         .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(newBook)))
-                        .content(jsonRequestBody))
+                        .content(objectMapper.writeValueAsString(newBook)))
+//                        .content(jsonRequestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Sample Title 2"))
-                .andExpect(jsonPath("$.isbn").value("ISBN002"));
+                .andExpect(jsonPath("$.isbn").value("ISBN002"))
+                .andExpect(jsonPath("$.author.name").value("Author 1"));
     }
 
     @Test
@@ -94,57 +83,23 @@ class BookControllerIntegrationTest {
                 .andExpect(jsonPath("$.isbn").value("ISBN001"));
     }
 
-//    @Test
-//    void testUpdateBook() throws Exception {
-//        Book updatedBook = new Book();
-//        updatedBook.setTitle("Updated Title");
-//        updatedBook.setIsbn("Updated ISBN");
-//        updatedBook.setPublishedDate(LocalDate.of(2023, 1, 15));
-//        updatedBook.setAuthor(author);
-//
-//        mockMvc.perform(put("/api/books/{id}", book.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(updatedBook)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.title").value("Updated Title"))
-//                .andExpect(jsonPath("$.isbn").value("Updated ISBN"));
-//    }
-
     @Test
     void testUpdateBook() throws Exception {
-        // Retrieve the existing book for the test
-        Book existingBook = bookRepository.findById(book.getId()).orElse(null);
+        Book updatedBook = new Book();
+        updatedBook.setTitle("Updated Title");
+        updatedBook.setIsbn("Updated ISBN");
+        updatedBook.setPublishedDate(LocalDate.of(2023, 1, 15));
+        updatedBook.setAuthor(author);
 
-        // Assume the author has already been created and saved
-        Author author = new Author();
-        author.setId(1L); // Use an existing author ID
-        author.setName("Updated Author");
-        author.setBio("This is an updated author bio");
-
-        // Build the JSON request body with author information included
-        String jsonRequestBody = "{"
-                + "\"id\": " + existingBook.getId() + ","
-                + "\"title\": \"Updated Title\","
-                + "\"isbn\": \"Updated ISBN\","
-                + "\"publishedDate\": \"2023-01-15\","
-                + "\"author\": {"
-                + "\"id\": " + author.getId() + ","
-                + "\"name\": \"" + author.getName() + "\","
-                + "\"bio\": \"" + author.getBio() + "\""
-                + "}"
-                + "}";
-
-        // Perform the PUT request
-        mockMvc.perform(put("/api/books/{id}", existingBook.getId())
+        mockMvc.perform(put("/api/books/{id}", book.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestBody))
+                        .content(objectMapper.writeValueAsString(updatedBook)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Updated Title"))
                 .andExpect(jsonPath("$.isbn").value("Updated ISBN"))
-                .andExpect(jsonPath("$.author.name").value("Updated Author")); // Check if the author is included
+                .andExpect(jsonPath("$.author.id").value("1"))
+                .andExpect(jsonPath("$.author.name").value("Author 1"));
     }
-
-
 
     @Test
     void testDeleteBook() throws Exception {
