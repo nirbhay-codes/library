@@ -60,3 +60,12 @@
   }
   ~~~
 - delete a Book: DELETE http://localhost:8080/api/books/{id}
+
+#### Swagger 
+
+- http://localhost:8080/swagger-ui.html
+- http://localhost:8080/v3/api-docs
+
+(currently not working properly. Needs some fix)
+
+"No static resource swagger-ui.html."
