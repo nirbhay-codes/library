@@ -9,7 +9,8 @@
 
 2. git clone https://github.com/nirbhay-codes/library.git
 3. cd library
-4. Run app
+4. mvn clean package
+5. Run app
   ~~~
   mvn spring-boot:run
   or

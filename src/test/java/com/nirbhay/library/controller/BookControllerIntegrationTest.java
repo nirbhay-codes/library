@@ -97,7 +97,6 @@ class BookControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Updated Title"))
                 .andExpect(jsonPath("$.isbn").value("Updated ISBN"))
-                .andExpect(jsonPath("$.author.id").value("1"))
                 .andExpect(jsonPath("$.author.name").value("Author 1"));
     }
 

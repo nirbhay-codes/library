@@ -1,6 +1,8 @@
 package com.nirbhay.library.service;
 
+import com.nirbhay.library.entity.Author;
 import com.nirbhay.library.entity.Book;
+import com.nirbhay.library.repository.AuthorRepository;
 import com.nirbhay.library.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,30 +22,42 @@ class BookServiceTest {
     @Mock
     private BookRepository bookRepository;
 
+    @Mock
+    private AuthorRepository authorRepository;
+
     @InjectMocks // this will inject bookRepository mocks into BookService
     private BookService bookService;
 
     private Book book1;
     private Book book2;
+    private Author author;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this); // Initialize the mocks
 
+        author = new Author();
+        author.setId(1L);
+        author.setName("Author 1");
+        author.setBio("Author 1 Bio");
+
         book1 = new Book();
         book1.setId(1L);
         book1.setTitle("Sample Book 1");
         book1.setIsbn("ISBN0001");
+        book1.setAuthor(author);
 
         book2 = new Book();
         book2.setId(2L);
         book2.setTitle("Sample Book 2");
         book2.setIsbn("ISBN0002");
+        book2.setAuthor(author);
     }
 
     @Test
     void createBook_ShouldReturnSavedBook() {
         when(bookRepository.save(book1)).thenReturn(book1);
+        when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
         Book savedBook = bookService.createBook(book1);
         assertNotNull(savedBook);
         assertEquals(book1.getId(), savedBook.getId());
@@ -90,10 +104,12 @@ class BookServiceTest {
     void updateBook_ShouldReturnUpdatedBook_WhenBookExists() {
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book1));
         when(bookRepository.save(book1)).thenReturn(book1);
+        when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
 
         Book updatedBook = new Book();
         updatedBook.setTitle("Updated Book");
         updatedBook.setIsbn("ISBN0010");
+        updatedBook.setAuthor(author);
 
         Book result = bookService.updateBook(1L, updatedBook);
         assertEquals("Updated Book", result.getTitle());
